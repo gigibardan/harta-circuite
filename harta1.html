@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harta Circuit Namibia - Botswana - Zimbabwe</title>
+</head>
+<body>
+    <h1><title>Harta Circuit Namibia - Botswana - Zimbabwe</title></h1>
+
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #4285f4; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+            Back to Index
+        </a>
+    </p>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+        async defer></script>
+
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -22, lng: 18},
+            zoom: 5
+        });
+
+        var locations = [
+            { name: 'Windhoek', coordinates: {lat: -22.559722, lng: 17.083611}, description: 'Capitala Namibiei' },
+            { name: 'Parcul Național Namib Naukluft', coordinates: {lat: -24.499167, lng: 15.811944}, description: 'Parc național în Namibia' },
+            { name: 'Sossusvlei', coordinates: {lat: -24.713333, lng: 15.322222}, description: 'Deșertul Namib, cunoscut pentru dunele sale înalte' },
+            { name: 'Canionul Sesriem', coordinates: {lat: -24.735833, lng: 15.332778}, description: 'Canion spectaculos în apropierea Sossusvlei' },
+            { name: 'Solitaire', coordinates: {lat: -23.896944, lng: 16.991111}, description: 'Mică așezare în deșertul Namib' },
+            { name: 'Walvis Bay', coordinates: {lat: -22.9575, lng: 14.505278}, description: 'Oraș la coasta Atlanticului' },
+            { name: 'Swakopmund', coordinates: {lat: -22.679722, lng: 14.527778}, description: 'Stațiune la malul mării' },
+            { name: 'Henties Bay', coordinates: {lat: -22.116667, lng: 14.278333}, description: 'Oraș pe coasta Atlanticului' },
+            { name: 'Cape Cross', coordinates: {lat: -21.759444, lng: 13.963611}, description: 'Rezervație cu colții de focă' },
+            { name: 'Damaraland', coordinates: {lat: -20.579444, lng: 14.175}, description: 'Regiune în nord-vestul Namibiei' },
+            { name: 'Twyfelfontein', coordinates: {lat: -20.583333, lng: 14.361389}, description: 'Sit arheologic și artistic' },
+            { name: 'Parcul Naţional Etosha', coordinates: {lat: -18.879722, lng: 16.329444}, description: 'Unul dintre cele mai mari parcuri de animale din Africa' },
+            { name: 'Tsumeb', coordinates: {lat: -19.242222, lng: 17.713611}, description: 'Oraș minier' },
+            { name: 'Fâșia Caprivi', coordinates: {lat: -17.776667, lng: 23.300833}, description: 'Regiune îngustă în nord-estul Namibiei' },
+            { name: 'Divundu (Okavango)', coordinates: {lat: -18.125, lng: 21.666667}, description: 'Localitate la râul Okavango' },
+            { name: 'Parcul Naţional Mahango', coordinates: {lat: -18.125, lng: 21.666667}, description: 'Parc național în apropierea râului Okavango' },
+            { name: 'Parcul Naţional Chobe (Botswana)', coordinates: {lat: -18.673611, lng: 24.592778}, description: 'Parc național în Botswana' },
+            { name: 'Victoria Falls (Zimbabwe)', coordinates: {lat: -17.924444, lng: 25.8575}, description: 'Cascada Victoria' },
+        ];
+
+        var markerArray = [];
+        var currentInfoWindow;
+
+        for (var i = 0; i < locations.length; i++) {
+            addMarker(map, locations[i]);
+        }
+
+        // Adaugă polilinie
+        var polyline = new google.maps.Polyline({
+            path: markerArray.map(marker => marker.getPosition()),
+            geodesic: true,
+            strokeColor: '#0000FF',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        polyline.setMap(map);
+
+        function addMarker(map, location) {
+            var marker = new google.maps.Marker({
+                position: location.coordinates,
+                map: map,
+                title: location.name,
+                description: location.description,
+                icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png' // Pictogramă personalizată de culoare albastră
+            });
+
+            markerArray.push(marker);
+
+            var infowindow = new google.maps.InfoWindow({
+                content: '<strong>' + location.name + '</strong><br>' + location.description
+            });
+
+            marker.addListener('click', function() {
+                if (currentInfoWindow) {
+                    currentInfoWindow.close();
+                }
+                infowindow.open(map, marker);
+                currentInfoWindow = infowindow;
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
+

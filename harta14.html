@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanzania și Zanzibar</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -3.4167, lng: 35.8333},
+                zoom: 6
+            });
+            var locations = [
+  { name: 'Kilimanjaro', coordinates: {lat: -3.0674, lng: 37.3556}, description: 'Cel mai înalt munte din Africa, cu o altitudine de 5895 m, situat în nord-estul Tanzaniei, la granița cu Kenya. Este un vulcan activ, format din trei conuri: Kibo, Mawenzi și Shira. Este o destinație populară pentru alpiniști și turiști. (Ziua 1 și 2)' },
+  { name: 'Moshi', coordinates: {lat: -3.3349, lng: 37.3404}, description: 'Un oraș din nordul Tanzaniei, situat la poalele Muntelui Kilimanjaro. Este capitala regiunii Kilimanjaro și un centru comercial și administrativ. Este, de asemenea, un punct de plecare pentru excursiile pe munte. (Ziua 1 și 2)' },
+  { name: 'Parcul Național Kilimanjaro', coordinates: {lat: -3.0674, lng: 37.3556}, description: 'Un parc național din nordul Tanzaniei, care cuprinde o parte din Muntele Kilimanjaro și zona înconjurătoare. Aici se poate face o urcare pe munte, până la Varful Mandara, la 2700 m, și se poate admira Craterul Maudi, de unde se vede nordul Tanzaniei și Kenya. (Ziua 2)' },
+  { name: 'Parcul Național Tarangire', coordinates: {lat: -3.9075, lng: 36.0833}, description: 'Un parc național din nordul Tanzaniei, renumit pentru baobabii săi și pentru populația mare de elefanți. Aici se pot observa și alte animale, cum ar fi gnu, zebre, girafe, bivoli, lei, leoparzi și hiene. (Ziua 3)' },
+  { name: 'Parcul Național Lacul Manyara', coordinates: {lat: -3.4167, lng: 35.8333}, description: 'Un parc național din nordul Tanzaniei, situat pe malul lacului Manyara, un lac alcalin din Valea Riftului. Aici se pot observa diverse ecosisteme, cum ar fi păduri, savane, mlaștini și pajiști. Aici trăiesc flamingo, hipopotami, babuini, bivoli, elefanți, lei și leoparzi. (Ziua 3)' },
+  { name: 'Craterul Ngorongoro', coordinates: {lat: -3.2396, lng: 35.5122}, description: 'Un crater vulcanic uriaș, cu un diametru de 21 km, situat în nordul Tanzaniei, în cadrul Ariei de Conservare Ngorongoro. Este considerat una dintre cele mai frumoase minuni naturale ale lumii și unul dintre cele mai bune locuri pentru a vedea cele cinci mari animale ale Africii. Aici trăiesc peste 25.000 de animale, inclusiv rinoceri negri, elefanți, lei, leoparzi, hiene, gnu, zebre, bivoli și antilope. (Ziua 4)' },
+  { name: 'Campiile Ndutu', coordinates: {lat: -2.8958, lng: 34.9893}, description: 'O zonă de savană și pădure, situată la granița dintre Parcul Național Serengeti și Aria de Conservare Ngorongoro, în sudul Tanzaniei. Aici se găsește o mare varietate de animale, în special în lunile decembrie-martie, când are loc migrația gnuului și a zebrei. Aici se pot observa și prădători, cum ar fi lei, leoparzi, gheparzi și hiene. (Ziua 5)' },
+  { name: 'Parcul Național Serengeti', coordinates: {lat: -2.3333, lng: 34.8333}, description: 'Un parc național din nordul Tanzaniei, renumit pentru migrația anuală a peste un milion de gnu și zebre, care traversează râul Mara spre Kenya. Este cel mai vechi și cel mai popular parc național din Tanzania, cu o suprafață de peste 14.000 km². Aici se pot observa și alte animale, cum ar fi elefanți, girafe, bivoli, lei, leoparzi, gheparzi și hiene. (Ziua 6)' },
+  { name: 'Mwanza', coordinates: {lat: -2.5167, lng: 32.9000}, description: 'Un oraș din nord-vestul Tanzaniei, situat pe malul sudic al lacului Victoria, al doilea cel mai mare lac din lume. Este al doilea oraș ca mărime din Tanzania și un important centru economic, cultural și de transport. Aici se află aeroportul de unde se poate zbura spre alte destinații din Africa. (Ziua 7)' },
+  { name: 'Lacul Victoria', coordinates: {lat: -1.0833, lng: 33.8333}, description: 'Cel mai mare lac din Africa și al doilea ca mărime din lume, situat la granița dintre Tanzania, Kenya și Uganda. Are o suprafață de peste 68.000 km² și este sursa râului Nil. Aici se pot face plimbări cu barca, pescuit, vizite la satele locale și observare de crocodili, hipopotami și păsări. (Ziua 7, opțional)' },
+  { name: 'Mwanza', coordinates: {lat: -2.5167, lng: 32.9000}, description: 'Un oraș din nord-vestul Tanzaniei, situat pe malul sudic al lacului Victoria, al doilea cel mai mare lac din lume. Este al treilea oraș ca mărime din Tanzania și un important centru economic, cultural și de transport. Aici se află aeroportul de unde se poate zbura spre alte destinații din Africa. (Ziua 8)' },
+  { name: 'Lacul Victoria', coordinates: {lat: -1.0833, lng: 33.8333}, description: 'Cel mai mare lac din Africa și al doilea ca mărime din lume, situat la granița dintre Tanzania, Kenya și Uganda. Are o suprafață de peste 68.000 km² și este sursa râului Nil. Aici se pot face plimbări cu barca, pescuit, vizite la satele locale și observare de crocodili, hipopotami și păsări. (Ziua 8, opțional)' },
+  { name: 'Dar-Es-Salaam', coordinates: {lat: -6.8167, lng: 39.2833}, description: 'Cel mai mare oraș și centru comercial din Tanzania. Numele înseamnă "paradis de pace" in limba arabă si este mai potrivit pentru statutul anterior al orasului, acela de sat de pescuit somnoros, decat pentru orasul  plin de viață, cu peste patru milioane de locuitori. Aici se pot vizita monumente ale colonizării germane, străzi tipic asiatice, piața de pește Magagoni și piața de abanos Mwenge. (Ziua 9)' },
+  { name: 'Zanzibar', coordinates: {lat: -6.1659, lng: 39.1989}, description: 'Un arhipelag din Oceanul Indian, situat la 25 km de coasta Tanzaniei. Este format din două insule principale, Unguja și Pemba, și multe altele mai mici. Este cunoscut ca "Insula Mirodeniilor", pentru că produce și exportă condimente, cum ar fi cuișoare, nucșoară, piper, vanilie, scorțișoară sau ghimbir. Aici se pot vizita orașul Stone Town, cu arhitectura sa unică și ușile sale sculptate, plantațiile de condimente, Insula Închisorii, cu colonia de broaște țestoase uriașe, și plajele cu nisip alb și ape turcoaz. (Ziua 9-11)' }
+
+]
+
+
+
+
+
+
+
+
+
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+
+    
+</script>
+
+</body>
+</html>

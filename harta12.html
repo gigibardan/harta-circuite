@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aventura in Africa de Sud si Zambia</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -23.5, lng: 25.5},
+                zoom: 5
+            });
+            
+            var locations = [
+  { name: 'Cape Town', coordinates: {lat: -33.92487, lng: 18.42406}, description: 'Cel mai vechi oraș din Africa de Sud, situat pe coasta Oceanului Atlantic, la poalele Muntelui Masă. Aici se află Muzeul Africii de Sud, Castelul Bunei Speranțe, Bo-Kaap și telecabina pe Table Mountain. (Ziua 2 și 3)' },
+  { name: 'Capul Bunei Speranțe', coordinates: {lat: -34.35684, lng: 18.47398}, description: 'O rezervație naturală ce face parte din Parcul Național Table Mountain, unde se întâlnesc Oceanul Atlantic și Oceanul Indian. Aici se pot vedea Hout Bay, Cape Point, Boulders Beach și Simon\'s Town. (Ziua 3, opțional)' },
+  { name: 'Johannesburg', coordinates: {lat: -26.20410, lng: 28.04731}, description: 'Cel mai mare oraș din Africa de Sud și centrul economic al țării, situat pe platoul înalt Witwatersrand. Aici se pot vizita Dealul Constituției, Curtea Constituțională, Old Fort, Carlton Center, Piața Libertății, Muzeul Memorial Hector Pieterson și fosta reședință a lui Nelson Mandela. (Ziua 4, 7 și 8)' },
+  { name: 'Parcul Kruger', coordinates: {lat: -23.98839, lng: 31.55474}, description: 'Cea mai mare și mai faimoasă rezervație naturală din Africa de Sud, unde se pot observa cele cinci mari animale ale Africii: leul, elefantul, bivolul, leopardul și rinocerul. Aici se pot face safari cu vehicule decapotabile, vizita Skukuza și admira picturile pe stâncă vechi de 1500 de ani. (Ziua 5 și 6)' },
+  { name: 'Panorama Route', coordinates: {lat: -24.92984, lng: 30.84169}, description: 'Un traseu spectaculos care se întinde de-a lungul lanțului muntos Drakensberg de Nord, oferind priveliști uimitoare asupra peisajului. Aici se pot admira Canionul Blyde River, God\'s Window, Bourke\'s Luck Potholes și Three Rondavels. (Ziua 7)' },
+  { name: 'Pretoria', coordinates: {lat: -25.74787, lng: 28.22927}, description: 'Capitala executivă a Africii de Sud și un important centru administrativ, cultural și academic, situat pe râul Apies. Aici se pot vizita cartierul guvernamental Union Building, Kruger House, Voortrekker Monument și Grădina Zoologică. (Ziua 8, opțional)' },
+  { name: 'Livingstone', coordinates: {lat: -17.85198, lng: 25.82851}, description: 'Un oraș din Zambia, situat pe malul râului Zambezi, la granița cu Zimbabwe. Aici se află Protea Hotel Livingstone, un hotel confortabil și modern, cu piscină, restaurant și bar. (Ziua 9 și 10, opțional)' },
+  { name: 'Cascada Victoria', coordinates: {lat: -17.92430, lng: 25.85720}, description: 'Una dintre cele mai înalte și mai impresionante cascade din lume, situată la granița dintre Zambia și Zimbabwe, pe râul Zambezi. Aici se pot face plimbări cu barca, zboruri cu elicopterul sau vizite la parcul național Mosi-oa-Tunya. (Ziua 10, opțional)' },
+]
+
+
+
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+
+    
+</script>
+
+</body>
+</html>

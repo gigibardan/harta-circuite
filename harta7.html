@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zanzibar - Insula Mirodeniilor</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #4285f4; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+            Back to Index
+        </a>
+    </p>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -6.392926, lng: 39.308934},
+                zoom: 10
+            });
+            
+            var locations = [
+    { name: 'Zanzibar', coordinates: {lat: -6.1659, lng: 39.2026}, description: 'Sosire dimineața devreme și transfer la hotel 3* pentru odihnă și mic dejun. Timp liber pentru plajă și relaxare.' },
+    { name: 'Stone Town', coordinates: {lat: -6.1630, lng: 39.1899}, description: 'Excursie opţională la Stone Town, partea veche a capitalei. Se vizitează Muzeul Naţional Zanzibar, pieţele de condimente, de fructe şi fostele pieţe de sclavi.' },
+    { name: 'Prison Island', coordinates: {lat: -6.1657, lng: 39.2125}, description: 'Excursie opţională la Prison Island. Timp liber pentru a înota sau a face fotografii cu broaştele ţestoase.' },
+    { name: 'Spice Tour', coordinates: {lat: -6.3749, lng: 39.3088}, description: 'Excursie opţională la o plantaţie de condimente. Vizită ghidată pentru a afla despre fiecare condiment în parte şi tehnicile utilizate de fermieri.' },
+    { name: 'Jozani Forest Reserve', coordinates: {lat: -6.2130, lng: 39.4755}, description: 'Excursie opţională la Rezervaţia Forestieră Jozani. Vedem maimuţele Red Colobus, care se întâlnesc doar aici.' },
+    { name: 'Mnemba Atoll', coordinates: {lat: -6.2878, lng: 39.5372}, description: 'Excursie opţională la Atolul Mnemba pentru snorkeling şi observarea coralilor. Timp liber pentru scufundări şi plajă.' },
+    { name: 'Dar es Salaam', coordinates: {lat: -6.7924, lng: 39.2083}, description: 'Excursie opţională la Dar es Salaam, cel mai mare oraş al Tanzaniei. Transfer pe continent cu feribotul. Orașul este plin de contrast, cu străzi aglomerate și bulevarde moderne.' },
+    { name: 'Kizimkazi', coordinates: {lat: -6.5489, lng: 39.4293}, description: 'Excursie opţională pentru înot cu delfinii în apropiere de satul pescăresc Kizimkazi.' },
+    { name: 'Kwale Island', coordinates: {lat: -6.3684, lng: 39.3843}, description: 'Excursie opţională pe Insula Kwale. Croazieră pe mare, înot în laguna cu mangrove, explorare a unei păduri de mangrove și urcare în vârful unui baobab vechi de 200 de ani.' }
+];
+
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+
+    
+</script>
+
+</body>
+</html>

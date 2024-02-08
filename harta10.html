@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namibia</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -19.5, lng: 16.5},
+                zoom: 6
+            });
+            
+            var locations = [
+  { name: 'Windhoek', coordinates: {lat: -22.55941, lng: 17.08323}, description: 'Capitala și cel mai mare oraș al Namibiei, cu o istorie bogată și o cultură vibrantă. Aici se află Muzeul Național, Muzeul Karen Blixen, Parcul Național Daan Viljoen și Catedrala Christuskirche. (Ziua 1, 2, 8 și 9)' },
+  { name: 'Parcul Național Etosha', coordinates: {lat: -18.85559, lng: 16.32932}, description: 'Unul dintre cele mai mari și mai frumoase parcuri naționale din Africa, renumit pentru diversitatea faunei sălbatice, inclusiv elefanți, rinoceri, lei, leoparzi, gheparzi, zebre, girafe și antilope. (Ziua 2, 3 și 4)' },
+  { name: 'Swakopmund', coordinates: {lat: -22.67842, lng: 14.52663}, description: 'Un orășel aflat pe coasta Namibiei, fondat în 1892 pentru a fi principalul port german din zona Africii de sud-vest. Este un oraș cu arhitectură colonială, înconjurat de aprigul deșert namibian. (Ziua 5, 6, 7 și 8)' },
+  { name: 'Deșertul Kaokoveld', coordinates: {lat: -18.43472, lng: 13.9125}, description: 'Una dintre cele mai sălbatice zone ale Africii, casa oamenilor Himba, un trib semi-nomad care își păstrează tradițiile și cultura ancestrală. Aici se pot vedea și peisaje spectaculoase, cum ar fi cascada Epupa și formațiunea de roci Organ Pipes. (Ziua 6, opțional)' },
+  { name: 'Walvis Bay', coordinates: {lat: -22.9575, lng: 14.50528}, description: 'Cel mai mare oraș portuar din Namibia, situat pe coasta Oceanului Atlantic. Un important centru turistic, cu plaje frumoase, recife de corali, lagună și colonii de flamingo, foci și delfini. (Ziua 7, opțional)' },
+]
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+
+    
+</script>
+
+</body>
+</html>

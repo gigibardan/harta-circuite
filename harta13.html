@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etiopia - Mix intre istorie si legenda</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 9.02497, lng: 38.74689},
+                zoom: 6
+            });
+            
+            var locations = [
+  { name: 'Addis Abeba', coordinates: {lat: 9.02497, lng: 38.74689}, description: 'Capitala Etiopiei și cel mai mare oraș din țară, situat la altitudinea de 2300 m. Aici se află Palatul Parlamentului, Primăria, Palatul Național, Muzeul Etnologic, Muzeul Național, Catedrala Ortodoxă Sfântă Treime și Mercato. (Ziua 1, 2 și 3)' },
+  { name: 'Bahir Dar', coordinates: {lat: 11.59364, lng: 37.39077}, description: 'Al treilea oraș ca număr de locuitori din Etiopia și capitala regiunii Amhara, situat pe malul lacului Tana. Aici se află Cascada Nilului Albastru și numeroase mănăstiri construite în secolele XIV-XVI, renumite pentru frescele, crucile și bibliile vechi. (Ziua 3 și 4)' },
+  { name: 'Gondar', coordinates: {lat: 12.6, lng: 37.46667}, description: 'Prima capitală a Imperiului Etiopian și unul dintre cele mai importante orașe istorice din țară, situat la poalele munților Simien. Aici se află complexul regal cu palatele și băile lui Fasilledes, biserica Debre Birham Selassie și mormintele regilor Kaleb și Gebre Meskel. (Ziua 4, 5 și 6)' },
+  { name: 'Parcul Național Simien', coordinates: {lat: 13.19628, lng: 38.37255}, description: 'O rezervație naturală montană, intrată în Patrimoniul Natural UNESCO în 1978, unde se pot observa specii endemice de păsări și plante, precum babuinul Gelada, vulpea de Simien, capra Walia ibex și vulturul cu barbă. (Ziua 5)' },
+  { name: 'Axum', coordinates: {lat: 14.12109, lng: 38.72337}, description: 'Fosta capitală a Etiopiei și leagănul culturii etiopiene, cu o istorie de peste 2000 de ani, situat în nordul țării. Aici se află Câmpul de Stele, cu obeliscuri de granit impresionante, Muzeul Arheologic, Biserica Sf. Maria din Sion, unde se crede că este păstrat Chivotul Legii, și ruinele Palatului Reginei din Saba. (Ziua 6 și 7)' },
+ { name: 'Arba Minch', coordinates: {lat: 6.03333, lng: 37.55}, description: 'Un oraș din sudul Etiopiei, situat pe malul lacului Chamo, unul dintre lacurile din Valea Riftului. Aici se află aeroportul de unde se poate zbura spre Addis Abeba. (Ziua 10 și 15)' },
+  { name: 'Jinka', coordinates: {lat: 5.65, lng: 36.65}, description: 'Un oraș din sud-vestul Etiopiei, situat în apropiere de Parcul Național Mago, unde trăiesc diverse triburi indigene. Aici se află Muzeul Jinka, care prezintă cultura și istoria acestor triburi. (Ziua 11 și 12)' },
+  { name: 'Turmi', coordinates: {lat: 4.96667, lng: 36.48333}, description: 'Un oraș din sud-vestul Etiopiei, situat în regiunea Omo, unde trăiesc triburile Hamer și Dasanech, cunoscute pentru coafurile, bijuteriile și ritualurile lor. Aici se pot vizita satele și piețele acestor triburi. (Ziua 12, 13 și 14)' },
+  { name: 'Omorate', coordinates: {lat: 4.48333, lng: 35.58333}, description: 'Un oraș din sud-vestul Etiopiei, situat pe malul râului Omo, la granița cu Kenya. Aici se pot vizita satele tribului Dasanech, o populație seminomadă, care se adaptează la condițiile de viață din deșert. (Ziua 13)' },
+  { name: 'Konso', coordinates: {lat: 5.25, lng: 37.48333}, description: 'Un oraș din sudul Etiopiei, situat în regiunea Konso, unde trăiește tribul Konso, recunoscut pentru arhitectura, terasarea și sculptura lor în lemn. Aici se află satul Konso, înscris în Patrimoniul Mondial UNESCO, și o falie gigantică, numită New York. (Ziua 14 și 15)' },
+  { name: 'Addis Abeba', coordinates: {lat: 9.02497, lng: 38.74689}, description: 'Capitala Etiopiei și cel mai mare oraș din țară, situat la altitudinea de 2300 m. Aici se află Palatul Parlamentului, Primăria, Palatul Național, Muzeul Etnologic, Muzeul Național, Catedrala Ortodoxă Sfântă Treime și Mercato. Aici se poate asista la un spectacol folcloric și o ceremonie a cafelei. (Ziua 15 și 16)' }
+  ]
+
+
+
+
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+
+    
+</script>
+
+</body>
+</html>

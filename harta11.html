@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maroc - Intre Desert si Mare</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 32.5, lng: -5.5},
+                zoom: 7
+            });
+            
+            var locations = [
+  { name: 'Casablanca', coordinates: {lat: 33.58831, lng: -7.61138}, description: 'Cel mai mare oraș și principalul port din Maroc, situat pe coasta Oceanului Atlantic. Aici se află Moscheea Hassan II, cea mai mare moschee din Africa și a treia ca mărime din lume, cu un minaret de 210 metri. (Ziua 1, 2, 3, 8 și 9)' },
+  { name: 'El Jadida', coordinates: {lat: 33.23163, lng: -8.50071}, description: 'Un oraș fortificat, cunoscut ca oraș balnear sau orașul nou, la 100 km de Casablanca, singura așezare cu aspect ne-maur din Maroc, datorită numeroaselor clădiri medievale rămase de la portughezi. Aici se poate vizita Cetatea Portugheză, inclusă în Patrimoniul Mondial UNESCO. (Ziua 2, opțional)' },
+  { name: 'Rabat', coordinates: {lat: 34.01325, lng: -6.83255}, description: 'Capitala Marocului și a doua ca mărime după Casablanca, situată pe malul Atlanticului. Aici se pot admira obiectivele turistice: Moscheea Neterminată cu Turnul lui Hassan, Mausoleul lui Mohamed V, Galeriile Bab El Kebir, Ouadayas Kasbah și Palatul Regal. (Ziua 3)' },
+  { name: 'Meknes', coordinates: {lat: 33.89352, lng: -5.54727}, description: 'Unul dintre cele patru orașe imperiale ale Marocului, supranumit orașul sutelor de minarete, reședința a vizirilor Merinizi încă din secolul al XII-lea, înconjurat de 40 km de ziduri de protecție. Aici se pot vedea Medersa Bou Inania, Poarta Bab Mansour și Medina. (Ziua 3 și 4)' },
+  { name: 'Volubilis', coordinates: {lat: 34.07132, lng: -5.55315}, description: 'Cel mai important sit arheologic roman din Maroc, situat la 30 km de Meknes. Aici se pot observa vestigii romane de preț, precum mozaicurile de paviment, foarte bine conservate, aparținând caselor unor locuitori înstăriți. (Ziua 4, opțional)' },
+  { name: 'Fez', coordinates: {lat: 34.03313, lng: -5.00028}, description: 'Cel mai vechi oraș islamic din lume și unul dintre cele patru orașe imperiale ale Marocului, împărțit în trei: orașul nou, cel medieval și orașul vechi. Aici se află Medina Fez el Bali, cea mai mare zonă pietonală din lume, Medersa El Attarine, Piața Nejjarine, Moscheea Karaouiyine și Bou Inania. (Ziua 4 și 5)' },
+  { name: 'Marrakech', coordinates: {lat: 31.63416, lng: -7.99994}, description: 'Un oraș cosmopolit care îmbină vechiul cu noul și unul dintre cele patru orașe imperiale ale Marocului, situat la poalele Munților Atlas. Aici se pot admira Grădinile Agdal, Moscheea al-Koutoubia, Moscheea Ben Youssef, Medersa, Necropola Saadiană, Palatul Bahia, Piața Djemaa el Fna și Grădinile Majorelle. (Ziua 6 și 7)' },
+  { name: 'Ouarzazate', coordinates: {lat: 30.91894, lng: -6.89341}, description: 'Un oraș situat pe un platou deșertic, la 1600 m altitudine, numit și Poarta către deșertul Sahara. Aici se află studiourile de film Atlas, unde s-au turnat filme celebre precum Lawrence al Arabiei, Gladiatorul sau Mumia. În apropiere se află și orașul fortificat Ait Benhaddou, inclus în Patrimoniul Mondial UNESCO. (Ziua 7, opțional)' },
+  { name: 'Agadir', coordinates: {lat: 30.42018, lng: -9.59815}, description: 'Un oraș situat pe coasta Oceanului Atlantic, la poalele Munților Atlas, renumit pentru plajele sale frumoase, recifele de corali, golfurile și portul său. Aici se poate vizita Medina Polizzi, o reconstrucție a orașului vechi distrus de un cutremur în 1960, și Kasbah, o cetate din secolul al XVI-lea. (Ziua 9, 10, 11 și 12, opțional)' }
+]
+
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+
+    
+</script>
+
+</body>
+</html>

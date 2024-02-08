@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia - Tasmania - Noua Zeelanda - Singapore - Fiji</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #4285f4; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+            Back to Index
+        </a>
+    </p>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -33.8688, lng: 151.2093},
+                zoom: 4
+            });
+
+            var locations = [
+    { name: 'Singapore', coordinates: {lat: 1.3521, lng: 103.8198}, description: 'Sosire în Singapore. Cazare în zonă, Ibis Styles Singapore 3* - Ziua 2' },
+    { name: 'Sydney', coordinates: {lat: -33.8688, lng: 151.2093}, description: 'Sosire Sydney. Cazare Mercure Sydney Wynyard 5* - Ziua 4' },
+    { name: 'Munții Albaștri', coordinates: {lat: -33.6372, lng: 150.5646}, description: 'Vizita la Parcul Național al Munților Albaștri, inclusiv Valea Jamison și Featherdale Wildlife Park - Ziua 5' },
+    { name: 'Melbourne', coordinates: {lat: -37.8136, lng: 144.9631}, description: 'Tur panoramic al orașului Melbourne și excursie opțională Great Ocean Road - Ziua 10 și Ziua 13' },
+    { name: 'Cairns', coordinates: {lat: -16.9203, lng: 145.7709}, description: 'Tur pietonal al orașului Cairns și excursie opțională la Kuranda și Marea Barieră de Corali - Ziua 7 și Ziua 9' },
+    { name: 'Queenstown', coordinates: {lat: -45.0312, lng: 168.6626}, description: 'Sosire în Queenstown și croazieră pe Milford Sound - Ziua 14 și Ziua 15' },
+    { name: 'Mount Cook National Park', coordinates: {lat: -43.7346, lng: 170.0962}, description: 'Excursie opțională la Parcul Național Mount Cook - Ziua 16' },
+    { name: 'Rotorua', coordinates: {lat: -38.1368, lng: 176.2497}, description: 'Experimentare cultură maori la Te Puia Whakarewarewa Thermal Reserve și vizită la Rainbow Springs - Ziua 18' },
+    { name: 'Waitomo', coordinates: {lat: -38.2607, lng: 175.114}, description: 'Vizită la peștera Waitomo și Glow Worm Groto - Ziua 19' },
+    { name: 'Auckland', coordinates: {lat: -36.8485, lng: 174.7633}, description: 'Tur pietonal de oraș Auckland - Ziua 20' },
+    { name: 'Fiji', coordinates: {lat: -17.7134, lng: 178.065}, description: 'Sosire în Fiji și cazare la InterContinental Fiji Golf Resort & Spa 5* - Zilele 21 - 25' },
+    { name: 'Yarra Valley', coordinates: {lat: -37.6568, lng: 145.408}, description: 'Excursie opțională Yarra Valley cu tur gourmet și degustare de vinuri - Ziua 12' },
+    { name: 'Phillip Island', coordinates: {lat: -38.4891, lng: 145.2058}, description: 'Excursie la Insula Phillip pentru vizionarea vieții sălbatice australiene, inclusiv colonia de foci, pinguini, urși koala și canguri - Ziua 11' },
+    { name: 'Great Ocean Road', coordinates: {lat: -38.6806, lng: 143.3916}, description: 'Excursie opțională Great Ocean Road, cu oprire la Gibson’s Steps, faleza Twelve Apostles, Loch Ard Gorge și Island Arch - Ziua 13' },
+    { name: 'Milford Sound', coordinates: {lat: -44.6412, lng: 167.8978}, description: 'Croazieră pe Milford Sound, trecând prin Tunelul Homer și admirațiile Bowen Falls și Mitre Peak - Ziua 15' },
+    { name: 'Singapore Airport', coordinates: {lat: 1.3644, lng: 103.9915}, description: 'Sfârșitul aventurii în Singapore. Check-out de la hotel și transfer la Aeroportul Changi pentru plecare spre casă.' }
+    
+];
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+</script>
+
+</body>
+</html>

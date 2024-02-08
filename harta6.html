@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madagascar Mora-Mora</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #4285f4; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+            Back to Index
+        </a>
+    </p>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -16.08556923076923, lng: 48.766546153846164},
+                zoom: 6
+            });
+
+            var locations = [
+     
+    { name: 'Antananarivo', coordinates: { lat: -18.8792, lng: 47.5079 }, description: 'Sosire seara tarziu, transfer la hotel Tana 3*.' },
+    { name: 'Antananarivo City Tour', coordinates: { lat: -18.8792, lng: 47.5079 }, description: 'Tur panoramic de oraș: orașul vechi, piața centrală, districtul de bijuterii, Palatul prim-ministrului, Palatul Reginei, Grădina Zoologică Tsimbazaza și Grădinile Botanice.' },
+    { name: 'Parcul Național Andasibe', coordinates: { lat: -18.9541, lng: 48.4156 }, description: 'Transfer către Parcul Național Andasibe. Vizită în Peyrieras, Parcul Național Perinet și rezervația "vakona" cu lemurieni, păsări și crocodili.' },
+    { name: 'Parcul Național Perinet', coordinates: { lat: -18.8591, lng: 48.3639 }, description: 'Vizită la Parcul Național Perinet cu specii de lemurieni, inclusiv Indri Indri.' },
+    { name: 'Foulpointe', coordinates: { lat: -17.6392, lng: 49.4154 }, description: 'Transfer spre Foulpointe. Cazare la Hotel Generation Foulpointe.' },
+    { name: 'Plajă în Foulpointe', coordinates: { lat: -17.6443, lng: 49.4117 }, description: 'Timp liber la dispoziție pentru plajă în Foulpointe.' },
+    { name: 'Soanierana Ivongo', coordinates: { lat: -16.9167, lng: 49.5833 }, description: 'Pornire spre Soanierana Ivongo pentru transfer către Insula Sainte Marie. Vizite pe drum și transfer cu barca către insulă. Cazare la Hotel Princesse Bora Lodge & Spa 4*.' },
+    { name: 'Insula Sainte Marie', coordinates: { lat: -17.0167, lng: 49.4833 }, description: 'Timp liber la dispoziție pentru plajă. Insula cu recife de corali și balene în sezon.' },
+    { name: 'Diego Suarez', coordinates: { lat: -12.2806, lng: 49.2916 }, description: 'Transfer către aeroport pentru zbor către Antananarivo, apoi zbor către Diego Suarez. Tur panoramic și cazare la Grand Hotel 3*+.' },
+    { name: 'Golful de Smarald și Muntele D\'Ambre', coordinates: { lat: -12.4366, lng: 49.1706 }, description: 'Transfer cu barca către Golful de Smarald și apoi către Parcul Național D\'Ambre. Cazare la Hotel Nature Lodge 3*.' },
+    { name: 'Tsingy Ankarana', coordinates: { lat: -12.9609, lng: 49.2671 }, description: 'Explorare în Parcul Național Ankarana. Prânz și transfer la Hotel Relais 4*, Parc Naturel de l\'Ankarana.' },
+    { name: 'Ankify și Insula Nosy Be', coordinates: { lat: -13.3154, lng: 48.2662 }, description: 'Transfer cu barca către Ankify, apoi transfer pe Insula Nosy Be. Cazare la Vanila Spa 3*.' },
+    { name: 'Nosy Be', coordinates: { lat: -13.3304, lng: 48.2806 }, description: 'Timp liber la dispoziție pentru plajă. Insula cu recife de corali și posibilitate de scufundări.' },
+];
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+    
+</script>
+
+</body>
+</html>

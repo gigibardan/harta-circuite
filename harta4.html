@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indonezia si insula zeilor</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #4285f4; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+            Back to Index
+        </a>
+    </p>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -7.7956, lng: 112.6132},
+                zoom: 7
+            });
+
+            var locations = [
+    { name: 'Bali', coordinates: {lat: -8.5193, lng: 115.2631}, description: 'Sosire în Bali. Transfer la hotel Radha Phala Ubud/similar.' },
+    { name: 'Ubud', coordinates: {lat: -8.5193, lng: 115.2631}, description: 'Explorare în Ubud: Mas Village, terasele Tegallalang, plantația de cafea, Palatul Ubud și zi liberă pentru relaxare sau explorare opțională.' },
+    { name: 'Sanur', coordinates: {lat: -8.6911, lng: 115.2619}, description: 'Vizite la Templele Ulun Danu, Taman Ayun și Tanah Lot. Relaxare în Sanur sau excursie opțională la Denpasar și Uluwatu cu dans Kecak și cină pe plaja Jimbaran.' },
+    { name: 'Yogyakarta', coordinates: {lat: -7.7956, lng: 110.3695}, description: 'Transfer la Yogyakarta. Tur cu Becak, cină și spectacol de dans Kecak sau zi liberă pentru explorare.' },
+    { name: 'Java Attractions', coordinates: {lat: -7.7956, lng: 110.3695}, description: 'Vizitare obiective turistice în Java: Borobudur, Mendut, Pawon și Prambanan.' },
+    { name: 'Solo', coordinates: {lat: -7.5667, lng: 110.8167}, description: 'Vizită în Solo: Atelier de păpuși și gamelan, demonstrație de confecționare a baticurilor.' },
+    { name: 'Tosari', coordinates: {lat: -7.9425, lng: 112.6132}, description: 'Transfer cu trenul către Tosari. Cazare la hotelul Bromo Cottages.' },
+    { name: 'Bromo Sunrise', coordinates: {lat: -7.9425, lng: 112.6132}, description: 'Răsărit la Muntele Bromo și transfer la Kalibaru. Cazare la Margo Utomo Hill View Resort.' },
+    { name: 'Kalibaru', coordinates: {lat: -7.9425, lng: 112.6132}, description: 'Vizită la plantații de cafea și cacao în Kalibaru.' },
+    { name: 'Jakarta', coordinates: {lat: -6.2088, lng: 106.8456}, description: 'Transfer către Jakarta. Tur de oraș în Jakarta.' }
+];
+
+
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+</script>
+
+</body>
+</html>

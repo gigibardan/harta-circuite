@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harta Circuit China</title>
+</head>
+<body>
+
+<div id="map" style="height: 600px; width: 100%;"></div>
+<p style="text-align: center; margin-top: 20px;">
+    <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #4285f4; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+        Back to Index
+    </a>
+</p>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+        async defer></script>
+
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 35.8617, lng: 104.1954},
+            zoom: 5
+        });
+
+        var locations = [
+            { name: 'Shanghai', coordinates: {lat: 31.2304, lng: 121.4737}, description: 'Ziua 2: Explorarea vibrantului Shanghai, un oraș modern și plin de viață.' },
+            { name: 'Suzhou', coordinates: {lat: 31.3114, lng: 120.6184}, description: 'Ziua 3: O oază de eleganță și cultură a mătăsii în Suzhou.' },
+            { name: 'Yichang', coordinates: {lat: 30.6919, lng: 111.2861}, description: 'Ziua 4: Tranziția spre aventura pe râul Yangtze începe în Yichang.' },
+            { name: 'Barajul Three Gorges', coordinates: {lat: 30.8231, lng: 111.0046}, description: 'Ziua 5: Începutul croazierei istorice pe râul Yangtze.' },
+            { name: 'Cheile Wu', coordinates: {lat: 31.0585, lng: 109.5767}, description: 'Ziua 6: Navigând prin eleganța Cheilor Wu.' },
+            { name: 'Croaziera pe râul Yangtze, Cheile Qutang', coordinates: {lat: 31.1734, lng: 108.7659}, description: 'Ziua 6: Seara, explorarea Cheilor Qutang, cele mai scurte și dramatice chei ale Yangtze.' },
+            { name: 'Croaziera pe râul Yangtze, Peștera de Jad Fengdu', coordinates: {lat: 29.8587, lng: 107.7224}, description: 'Ziua 7: Explorarea minunilor naturale pe Yangtze, inclusiv vizita la Peștera de Jad Fengdu.' },
+            { name: 'Chongqing', coordinates: {lat: 29.4316, lng: 106.9123}, description: 'Ziua 8: De la zidurile Chongqing-ului la misterul Xian.' },
+            { name: 'Xian', coordinates: {lat: 34.3416, lng: 108.9398}, description: 'Ziua 9: În inima istoriei antice a Xian.' },
+            { name: 'Beijing', coordinates: {lat: 39.9042, lng: 116.4074}, description: 'Ziua 10: Descoperirea comorilor istorice și culturale ale Beijingului.' },
+            { name: 'Marele Zid Chinezesc (Mutianyu)', coordinates: {lat: 40.4319, lng: 116.5649}, description: 'Ziua 11: Ascensiunea pe Marele Zid și descoperirea patrimoniului chinez.' },
+            { name: 'Beijing', coordinates: {lat: 39.9042, lng: 116.4074}, description: 'Ziua 12: Încheierea călătoriei și plecarea din inima Chinei.' },
+        ];
+
+        var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+</script>
+
+</body>
+</html>

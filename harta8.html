@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India, Triunghiul de Aur & Sejur Goa/Kerala</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 22.5, lng: 76.5},
+                zoom: 5
+            });
+            
+            var locations = [
+  { name: 'Delhi', coordinates: {lat: 28.7041, lng: 77.1025}, description: 'Capitala Indiei, cu monumente istorice, religioase și moderne, cum ar fi Poarta Indiei, Qutub Minar, Jama Masjid și Lotus Temple. (Ziua 2, 6 și 7)' },
+  { name: 'Agra', coordinates: {lat: 27.1767, lng: 78.0081}, description: 'Orașul Taj Mahal, minunea lumii construită de Shah Jahan pentru soția sa Mumtaz. Alte atracții: Fortul Roșu, Mausoleul Akbar, Grădina Mehtab. (Ziua 3 și 4)' },
+  { name: 'Jaipur', coordinates: {lat: 26.9124, lng: 75.7873}, description: 'Orașul Roz, capitala Rajasthanului, cu Palatul Orașului, Palatul Vânturilor, Fortul Amber, Observatorul Jantar Mantar. (Ziua 4 și 5)' },
+  { name: 'Haridwar', coordinates: {lat: 29.9457, lng: 78.1642}, description: 'Oraș sfânt pe malul Gangelui, loc de pelerinaj și ceremonii religioase. Unul dintre locurile festivalului Kumbh Mela. Templul Mansa Devi, podul Lakshman Jhula. (Ziua 8 și 9)' },
+  { name: 'Rishikesh', coordinates: {lat: 30.0869, lng: 78.2676}, description: 'Oraș la poalele Himalayei, pe Gange, capitala mondială a yogăi. Vizitat de Beatles, care au compus aici cântece. Cel mai vechi templu: Bharat Mandir. (Ziua 9)' },
+  { name: 'Goa', coordinates: {lat: 15.2993, lng: 74.1240}, description: 'Fostă colonie portugheză, renumită pentru plaje, viață de noapte, mâncare, arhitectură. Important centru de turism, cu 2 milioane de vizitatori anual. (Zilele 11-15)' },
+  { name: 'Kerala', coordinates: {lat: 10.8505, lng: 76.2711}, description: 'Stat cu frumusețe naturală, coastă cu lagune și canale, munți cu plantații de ceai și mirodenii, rezervații naturale. Cultură și tradiție bogată, dansuri, muzică, artă marțială. (Zilele 11-15)' }
+]
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+
+    
+</script>
+
+</body>
+</html>

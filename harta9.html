@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari in Kenya - Sejur in Mombasa</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -1.75, lng: 37.75},
+                zoom: 7
+            });
+            
+            var locations = [
+  { name: 'Nairobi', coordinates: {lat: -1.2921, lng: 36.8219}, description: 'Capitala și cel mai mare oraș al Kenyei, cu o istorie bogată și o cultură vibrantă. Aici se află Muzeul Național, Muzeul Karen Blixen, Parcul Național Nairobi și Centrul Girafelor. (Ziua 1, 2, 8, 9 și 10)' },
+  { name: 'Parcul Național Lacul Nakuru', coordinates: {lat: -0.3667, lng: 36.0833}, description: 'Un parc național situat în jurul lacului Nakuru, renumit pentru coloniile de flamingo roz și pentru diversitatea faunei sălbatice, inclusiv hipopotami, rinoceri negri, girafe, antilope, lei și leoparzi. (Ziua 3, 4 și 5)' },
+  { name: 'Parcul Național Masai Mara', coordinates: {lat: -1.4066, lng: 35.0018}, description: 'O rezervație naturală faimoasă pentru migrația anuală a milioane de gnui, zebre și antilope. Un loc ideal pentru a observa animale sălbatice, cum ar fi lei, leoparzi, elefanți, bivoli și rinoceri. (Ziua 6, 7 și 8)' },
+  { name: 'Mombasa', coordinates: {lat: -4.0435, lng: 39.6682}, description: 'Al doilea oraș ca mărime din Kenya, situat pe coasta Oceanului Indian. Un important centru turistic, cu plaje frumoase, recife de corali, fortărețe istorice și influențe culturale arabe, indiene și portugheze. (Zilele 10-14, opțional)' }
+]
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+
+
+
+    
+</script>
+
+</body>
+</html>

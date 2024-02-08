@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Croaziera pe Nil - Egipt</title>
+</head>
+<body>
+
+    <div id="map" style="height: 600px; width: 100%;"></div>
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="index.html" style="display: inline-block; padding: 10px 20px; background-color: #4285f4; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+            Back to Index
+        </a>
+    </p>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6u0oSEcct6ePp5rSesccbb8YG_56eI84&callback=initMap"
+            async defer></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 27.6576186, lng: 32.291736},
+                zoom: 6
+            });
+
+            var locations = [
+    { name: 'Cairo', coordinates: {lat: 30.033, lng: 31.23}, description: 'Sosire la Cairo. Tur de oraş cu Muzeul de Egiptologie, citadela cu Moscheea de Alabastru şi Marele Bazar.' },
+    { name: 'Giza', coordinates: {lat: 29.9764, lng: 31.1321}, description: 'Excursie la Giza, vizitând Marea Piramidă a lui Keops, Sfinxul și alte piramide celebre. Vizită la Saqqara și Memphis.' },
+    { name: 'Aswan', coordinates: {lat: 24.0889, lng: 32.8998}, description: 'Sosire la Aswan. Croazieră pe Nil cu vizite la Insula Elefantina, Grădina Botanică de pe Insula Kitchener și Mausoleul lui Aga Khan.' },
+    { name: 'Kom Ombo', coordinates: {lat: 24.452, lng: 32.9378}, description: 'Excursie la Kom Ombo pentru vizitarea Templului Kom Ombo, dedicat zeilor Sobek și Haroeris.' },
+    { name: 'Edfu', coordinates: {lat: 24.9774, lng: 32.8749}, description: 'Vizită la Templul ptolemeic de la Edfu, dedicat lui Horus, cel mai bine păstrat templu din Egipt.' },
+    { name: 'Luxor', coordinates: {lat: 25.6872, lng: 32.6396}, description: 'Vizită în Luxor, incluzând Templul Luxor, Aleea Sfinților și excursie opțională la Valea Regilor.' },
+    { name: 'Karnak', coordinates: {lat: 25.7188, lng: 32.6573}, description: 'Vizită la Templul lui Amun-Ra de la Karnak, ansamblu monumental de 20 de temple mai mici.' },
+    { name: 'Hurghada', coordinates: {lat: 27.2579, lng: 33.8116}, description: 'Deplasare la Hurghada și cazare la hotel. Timp liber pentru plajă și relaxare.' },
+    { name: 'Insula Gifton', coordinates: {lat: 27.1206, lng: 33.7915}, description: 'Excursie opțională pe Insula Gifton, rezervație naturală cu plaje frumoase și recifuri de corali.' },
+    { name: 'Jeep Safari', coordinates: {lat: 27.2579, lng: 33.8116}, description: 'Excursie opțională – Jeep Safari în deșert, cu cină berbecue într-o așezare de beduini.' },
+    { name: 'Return to Cairo', coordinates: {lat: 30.111, lng: 31.413}, description: 'Transfer la Cairo după micul dejun. Timp liber în Cairo.' },
+    { name: 'Alexandria Day Trip', coordinates: {lat: 31.2156, lng: 29.9553}, description: 'Excursie opțională de o zi la Alexandria, vizitând Fortul Quytbay, Cartierul sudic (Rhakotis) și Biblioteca din Alexandria.' },
+    { name: 'Cairo Departure', coordinates: {lat: 30.121, lng: 31.405}, description: 'Transfer la aeroportul Cairo pentru zborul de retur către România.' }
+];
+
+
+
+
+
+
+var markerArray = [];
+            var currentInfoWindow;
+
+            for (var i = 0; i < locations.length; i++) {
+                addMarker(map, locations[i]);
+            }
+
+            // Adaugă polilinie
+            var polyline = new google.maps.Polyline({
+                path: markerArray.map(marker => marker.getPosition()),
+                geodesic: true,
+                strokeColor: '#0000FF',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            polyline.setMap(map);
+
+            function addMarker(map, location) {
+                var marker = new google.maps.Marker({
+                    position: location.coordinates,
+                    map: map,
+                    title: location.name,
+                    description: location.description,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                });
+
+                markerArray.push(marker);
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<strong>' + location.name + '</strong><br>' + location.description
+                });
+
+                marker.addListener('click', function() {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfoWindow = infowindow;
+                });
+            }
+        }
+    
+</script>
+
+</body>
+</html>
